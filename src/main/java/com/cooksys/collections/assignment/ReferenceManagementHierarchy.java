@@ -117,10 +117,9 @@ public class ReferenceManagementHierarchy implements ManagementHierarchy {
     @Override
     public List<Manager> getChainOfCommand(Employee employee) {
         List<Manager> result = new ArrayList<>();
-        Employee current = employee;
-        while (current != null && hasEmployee(current) && hasManager(current.getManager())) {
-            result.add(current.getManager());
-            current = current.getManager();
+        if (employee != null && hasEmployee(employee) && hasManager(employee.getManager())) {
+            result.add(employee.getManager());
+            result.addAll(getChainOfCommand(employee.getManager()));
         }
         return result;
     }
